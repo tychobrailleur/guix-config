@@ -1,0 +1,73 @@
+* Preparation
+
+  Create three partitions, using =cfdisk=:
+
+  - Swap partition (=/dev/sda1=), 1G
+  - ext4 partition (=/dev/sda2=), at least 10G
+  - Linux boot partition, 500M
+
+  See also [[https://www.gnu.org/software/guix/manual/html_node/Preparing-for-Installation.html#Preparing-for-Installation][Guix Manual]].
+
+
+  Load correct keyboard layout:
+
+#+BEGIN_SRC bash
+loadkeys fr
+#+END_SRC
+
+  Configure network interface:
+
+#+BEGIN_SRC bash
+ifconfig -a
+ifconfig enp0s3 up
+dhclient enp0s3
+ping -c 4 gnu.org
+#+END_SRC
+
+
+  Mount filesystem under =/mnt=:
+
+#+BEGIN_SRC bash
+mount LABEL=main /mnt
+#+END_SRC
+
+  Prepare swap partitions:
+
+#+BEGIN_SRC bash
+mkswap /dev/sda1
+swapon /dev/sda1
+#+END_SRC
+
+* Installation
+
+  Run:
+
+#+BEGIN_SRC bash
+herd start cow-store /mnt
+#+END_SRC
+
+  Get =config.scm=, and install it under =/mnt/etc/config.scm=.
+
+  Initialise the system:
+
+#+BEGIN_SRC bash
+guix system init /mnt/etc/config.scm /mnt
+#+END_SRC
+
+  Once complete, reboot, you can login with =root= (no password), and
+  change passwords for both =root= and user created by =config.scm=.
+
+
+* Maintenance
+
+  Update guix packages:
+
+#+BEGIN_SRC bash
+guix pull
+#+END_SRC
+
+  Install new package:
+
+#+BEGIN_SRC bash
+guix package -i git
+#+END_SRC
