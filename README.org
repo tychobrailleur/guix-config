@@ -46,7 +46,7 @@ swapon /dev/sda1
 herd start cow-store /mnt
 #+END_SRC
 
-  Get =config.scm=, and install it under =/mnt/etc/config.scm=.
+  Get [[file:config.scm][config.scm]], and install it under =/mnt/etc/config.scm=.
 
   Initialise the system:
 
